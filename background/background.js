@@ -355,7 +355,7 @@ function updateBadge(tabId) {
 }
 
 // ─── API Key Management ────────────────────────────────────────────
-const _BUILTIN_KEY_PARTS = ['AIzaSyD1ofUb', 'FPLZrpm9h1le', 'fiDItLNRvzwLd7I'];
+const _BUILTIN_KEY_PARTS = []; // Configure your own PageSpeed key in Settings.
 let _pageSpeedApiKey = null;
 
 async function getPageSpeedApiKey() {
@@ -370,7 +370,7 @@ async function getPageSpeedApiKey() {
 
 // Ahrefs APIv3 key for free public endpoints (domain-rating-free etc.)
 // Stored key (chrome.storage.sync.ahrefsApiKey) takes precedence; falls back to built-in.
-const _AHREFS_BUILTIN_KEY = 'z2EuF-JNAQEPu_l2nIW_eMX0Sq5i6-1Vb8TfOUfi';
+const _AHREFS_BUILTIN_KEY = ''; // Configure your own Ahrefs key in Settings.
 let _ahrefsApiKey = null;
 
 async function getAhrefsApiKey() {

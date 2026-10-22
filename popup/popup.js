@@ -16225,7 +16225,7 @@ function initFirecrawlSettings() {
     if (r.groqApiKey && $('groqApiKey')) $('groqApiKey').value = r.groqApiKey;
     if (r.groqModel && $('groqModel')) $('groqModel').value = r.groqModel;
     const badge = $('settingsGroqStatus');
-    if (badge) badge.textContent = (r.groqApiKey || '').trim() ? 'Your key' : 'Built-in';
+    if (badge) badge.textContent = (r.groqApiKey || '').trim() ? 'Your key' : 'Key required';
   });
   setupEyeBtn('groqEyeBtn', 'groqApiKey');
   $('groqSaveBtn')?.addEventListener('click', async () => {
@@ -16251,9 +16251,9 @@ function initFirecrawlSettings() {
     updateSettingsAiBadge();
     toast(apiKey
       ? 'Groq saved with your key (' + model + ')'
-      : 'Using built-in Groq key (' + model + ')');
+      : 'Groq key required — add your key in Settings');
     const badge = $('settingsGroqStatus');
-    if (badge) badge.textContent = apiKey ? 'Your key' : 'Built-in';
+    if (badge) badge.textContent = apiKey ? 'Your key' : 'Key required';
   });
 
   $('groqTestBtn')?.addEventListener('click', async () => {

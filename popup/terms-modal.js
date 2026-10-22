@@ -35,7 +35,7 @@
         '</ul>' +
         '<h3>Official source only</h3>' +
         '<ul>' +
-          '<li>ShahzaibSEO is free only on the <strong>official Chrome Web Store</strong></li>' +
+          '<li>Get Shahzaib SEO information and support at <strong>shazzseo.com</strong></li>' +
           '<li>There is no paid seller or third-party ShahzaibSEO shop</li>' +
           '<li>Not affiliated with Google, Ahrefs, Moz, or other data providers</li>' +
         '</ul>' +
@@ -43,11 +43,9 @@
         '<p>Use public data responsibly. Follow each site’s rules and Google’s terms. Scores and estimates are guidance only — not a ranking or income guarantee.</p>' +
         '<h3>Developer</h3>' +
         '<ul>' +
-          '<li><strong>Mubashir Hassan</strong> — ShahzaibSEO creator</li>' +
-          '<li>Website: <a href="https://www.mubashirhassan.com" target="_blank" rel="noopener">mubashirhassan.com</a></li>' +
-          '<li>ShahzaibSEO page: <a href="https://www.mubashirhassan.com/rankseo.html" target="_blank" rel="noopener">mubashirhassan.com/rankseo.html</a></li>' +
-          '<li>WhatsApp: <a href="https://wa.me/923222047786?text=Hi%20Mubashir%2C%20I%20found%20you%20via%20ShahzaibSEO%20extension." target="_blank" rel="noopener">+92 322 2047786</a></li>' +
-          '<li>Email: <a href="mailto:hello@mubashirhassan.com">hello@mubashirhassan.com</a></li>' +
+          '<li><strong>Shahzaib Hassan</strong> — Shahzaib SEO developer</li>' +
+          '<li>Website: <a href="https://shazzseo.com" target="_blank" rel="noopener">shazzseo.com</a></li>' +
+          '<li>Email: <a href="mailto:info@shazzseo.com">info@shazzseo.com</a></li>' +
         '</ul>' +
         '<p><strong>By clicking Agree</strong> you confirm you understand ShahzaibSEO is free, local-first, and you will use it fairly.</p>' +
         '<div class="rs-terms-actions">' +

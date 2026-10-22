@@ -24,3 +24,9 @@ The archive did not contain a source license. Original creator attributions and 
 Run `python3 tools/validate.py` to check manifest resources and JavaScript syntax (requires Node.js). Browser interaction and API-backed features require separate runtime checks.
 
 The embedded Groq credential supplied in the original archive has been removed. Configure your own key in Settings for Groq-backed features.
+
+## Developer and support
+
+Shahzaib SEO developer: Shahzaib Hassan. Website: https://shazzseo.com. Email: info@shazzseo.com.
+
+The original supplied RankSEO extension identifies Mubashir Hassan as its creator. This provenance is separate from Shahzaib SEO support. Embedded Ahrefs and PageSpeed defaults have also been removed; configure your own keys in Settings. See [API-MECHANISM.md](API-MECHANISM.md) for the implementation audit.
