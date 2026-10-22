@@ -1,0 +1,86 @@
+/* Shahzaib SEO — indigo workspace theme */
+:root, #app {
+  --brand: #6554e8;
+  --brand-mid: #8b7cf6;
+  --brand-dark: #4f3fc4;
+  --brand-pale: #f0edff;
+  --brand-faint: #e4dfff;
+  --accent: #6554e8;
+  --accent-hover: #4f3fc4;
+  --bg: #f5f6fb;
+  --border: #e5e7f1;
+  --border-strong: #ccd0e2;
+  --sidebar-w: 168px;
+  --radius: 13px;
+  --radius-sm: 8px;
+  --radius-lg: 16px;
+  --font: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  --shadow: 0 3px 14px rgba(31, 36, 75, .045);
+}
+#app[data-theme="dark"] {
+  --bg: #111525;
+  --surface: #1b2135;
+  --surface2: #232a41;
+  --surface-2: #232a41;
+  --card: #1b2135;
+  --border: #303850;
+  --brand: #a79bff;
+  --accent: #a79bff;
+  --brand-pale: #302c50;
+  --brand-faint: #3a335f;
+}
+.sidebar {
+  background: #171d34;
+  border-right: 1px solid #252d48;
+  color: #e6e8f5;
+}
+.sidebar::after { display: none; }
+.sidebar-brand { padding: 20px 13px 17px; border-color: #303750; }
+.brand-logo { gap: 8px; align-items: center; }
+.brand-icon { width: 25px; height: 25px; filter: hue-rotate(95deg); }
+.brand-name {
+  background: none;
+  -webkit-text-fill-color: #fff;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 750;
+  letter-spacing: -.5px;
+  white-space: nowrap;
+}
+.sidebar-brand::after {
+  content: 'YOUR SEARCH WORKSPACE';
+  display: block;
+  margin-top: 9px;
+  color: #9ca7ce;
+  font-size: 8px;
+  letter-spacing: 1.3px;
+  font-weight: 600;
+}
+.sidebar-nav { padding: 12px 9px; gap: 3px; scrollbar-width: thin; scrollbar-color: #424b6c transparent; }
+.sidebar .nav-btn { color: #b9c1dc; border-radius: 8px; padding: 8px; font-size: 11px; }
+.sidebar .nav-btn:hover, .sidebar .footer-btn:hover { background: #262e49; color: #fff; }
+.sidebar .nav-btn.active { background: #6554e8; color: #fff; box-shadow: 0 3px 9px #0c102c44; }
+.sidebar .nav-btn.active::before { display: none; }
+.sidebar .nav-btn svg { opacity: .85; }
+.sidebar-footer { border-color: #303750; background: #141a2e; }
+.sidebar .footer-btn, .sidebar .footer-icon-btn { color: #b9c1dc; }
+.sidebar .nav-new { background: #343c59; color: #d6cfff; font-size: 7px; }
+.top-bar { min-height: 58px; padding: 12px 16px; gap: 8px; }
+.page-url { font-weight: 650; letter-spacing: -.2px; }
+.cta-btn { border-radius: 8px; padding: 8px 11px; font-size: 11px; box-shadow: none; }
+#refreshAnalysisBtn { background: var(--brand); }
+#exportPdfTopBtn { background: var(--surface) !important; color: var(--text); border: 1px solid var(--border-strong); }
+.card, .dash-score-card, .dash-tech-card, .dash-headings-card, .dash-speed-card, .dash-stat-card {
+  border-radius: 13px;
+  border-color: var(--border);
+  box-shadow: var(--shadow);
+}
+#tab-dashboard .feature-card { border-radius: 11px; border-color: var(--border); box-shadow: none; }
+#tab-dashboard .feature-card .fc-header { background: var(--surface2); border-color: var(--border); }
+#tab-dashboard .feature-card-title { color: var(--text-3); letter-spacing: 1.1px; font-size: 10px; margin: 20px 0 10px; }
+input:not([type="checkbox"]):not([type="radio"]):not([type="range"]), select, textarea { border-radius: 8px; }
+button, a, input, select, textarea { outline-offset: 3px; }
+button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 2px solid var(--brand); }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+}

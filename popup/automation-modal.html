@@ -1,0 +1,176 @@
+<!-- Automation Modal -->
+<div class="automation-modal" id="automationModal" style="display: none;">
+  <div class="automation-overlay" id="automationOverlay"></div>
+
+  <div class="automation-container">
+
+    <!-- Header -->
+    <div class="automation-header">
+      <div class="automation-title">
+        <h2>Automate my GEO &amp; SEO</h2>
+        <p>AI-powered analysis and optimization</p>
+      </div>
+      <div class="automation-header-actions">
+        <!-- History button -->
+        <button class="btn-icon" id="historyTabBtn" title="View history">
+          <svg viewBox="0 0 20 20" fill="currentColor" width="18" height="18">
+            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"/>
+          </svg>
+        </button>
+
+      </div>
+    </div>
+
+    <!-- Progress Section -->
+    <div class="automation-progress" id="automationProgress" style="display: none;">
+      <div class="progress-steps">
+        <div class="progress-step" data-step="1">
+          <div class="step-icon">1</div>
+          <div class="step-text">Crawling page with Firecrawl...</div>
+        </div>
+        <div class="progress-step" data-step="2">
+          <div class="step-icon">2</div>
+          <div class="step-text">Analyzing with AI...</div>
+        </div>
+        <div class="progress-step" data-step="3">
+          <div class="step-icon">3</div>
+          <div class="step-text">Testing AI engine rankings...</div>
+        </div>
+        <div class="progress-step" data-step="4">
+          <div class="step-icon">4</div>
+          <div class="step-text">Generating fixes...</div>
+        </div>
+        <div class="progress-step" data-step="5">
+          <div class="step-icon">5</div>
+          <div class="step-text">Creating implementation guide...</div>
+        </div>
+      </div>
+
+      <div class="progress-bar-wrap">
+        <div class="progress-bar-fill" id="progressBarFill"></div>
+      </div>
+
+      <div class="progress-footer">
+        <div class="progress-percentage" id="progressPercentage">0%</div>
+        <button class="btn-cancel" id="cancelAutomationBtn">Cancel</button>
+      </div>
+    </div>
+
+    <!-- Results Section -->
+    <div class="automation-results" id="automationResults" style="display: none;">
+
+      <!-- Tabs -->
+      <div class="automation-tabs">
+        <button class="automation-tab active" data-tab="summary">Summary</button>
+        <button class="automation-tab" data-tab="rankings">AI Rankings</button>
+        <button class="automation-tab" data-tab="issues">Issues &amp; Fixes</button>
+        <button class="automation-tab" data-tab="content">Content</button>
+        <button class="automation-tab" data-tab="technical">Technical</button>
+        <button class="automation-tab" data-tab="guide">Implementation</button>
+        <button class="automation-tab" data-tab="tools">Tools</button>
+      </div>
+
+      <!-- Tab Content -->
+      <div class="automation-tab-content">
+
+        <!-- Summary Tab -->
+        <div class="automation-tab-panel active" data-panel="summary" id="tab-summary">
+          <!-- Populated by JS -->
+        </div>
+
+        <!-- AI Rankings Tab (combines AI Rankings + AI Visibility) -->
+        <div class="automation-tab-panel" data-panel="rankings">
+          <div class="rankings-list" id="rankingsList"></div>
+          <div class="rankings-footer-bar" id="rankingsFooterBar" style="display:none">
+            <button class="btn-secondary btn-sm" id="trackRankingsBtn">
+              <svg viewBox="0 0 20 20" fill="currentColor" width="13" height="13"><path d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zm6-4a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H9a1 1 0 01-1-1V7zm6-3a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z"/></svg>
+              Track Rankings
+            </button>
+            <button class="btn-secondary btn-sm" id="exportRankingsCsvBtn">
+              <svg viewBox="0 0 20 20" fill="currentColor" width="13" height="13"><path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4z" clip-rule="evenodd"/></svg>
+              Export CSV
+            </button>
+          </div>
+          <!-- AI Visibility section added here by JS -->
+          <div id="aiVisibilitySection"></div>
+        </div>
+
+        <!-- Issues & Fixes Tab -->
+        <div class="automation-tab-panel" data-panel="issues">
+          <div class="issues-filter">
+            <button class="filter-chip active" data-filter="all">All</button>
+            <button class="filter-chip" data-filter="high">High</button>
+            <button class="filter-chip" data-filter="medium">Medium</button>
+            <button class="filter-chip" data-filter="low">Low</button>
+          </div>
+          <div class="issues-list" id="issuesList"></div>
+        </div>
+
+        <!-- Content Tab (combines Content + Schema + Keywords) -->
+        <div class="automation-tab-panel" data-panel="content">
+          <div class="content-tab-sections" id="contentTabSections">
+            <!-- Populated by JS: meta tags, schema, keywords, alt texts, internal links -->
+          </div>
+        </div>
+
+        <!-- Technical Tab (combines Technical + E-E-A-T) -->
+        <div class="automation-tab-panel" data-panel="technical">
+          <div id="technicalTabContent">
+            <!-- Populated by JS: technical checks, CWV, E-E-A-T, domain info, etc. -->
+          </div>
+        </div>
+
+        <!-- Implementation Guide Tab -->
+        <div class="automation-tab-panel" data-panel="guide">
+          <div class="guide-header">
+            <div class="guide-stats">
+              <span id="guideStepsCount">-- steps</span>
+              <span>•</span>
+              <span id="guideTime">-- minutes</span>
+            </div>
+          </div>
+          <div class="guide-steps" id="guideStepsList"></div>
+          <div class="guide-actions">
+            <button class="btn-primary" id="downloadGuideBtn">Download Complete Guide (PDF)</button>
+          </div>
+        </div>
+
+        <!-- Tools Tab (combines Competitive + Tools) -->
+        <div class="automation-tab-panel" data-panel="tools">
+          <div id="toolsTabContent">
+            <!-- Populated by JS: query simulation, PAA generator, audit comparison, etc. -->
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- History View -->
+    <div class="automation-history-view" id="automationHistoryView" style="display: none;">
+      <div class="history-header">
+        <button class="btn-icon" id="historyBackBtn" title="Back">
+          <svg viewBox="0 0 20 20" fill="currentColor" width="18" height="18">
+            <path fill-rule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clip-rule="evenodd"/>
+          </svg>
+        </button>
+        <span class="history-title">Previous Runs</span>
+      </div>
+      <div class="history-list" id="historyList"></div>
+    </div>
+
+    <!-- Error Section -->
+    <div class="automation-error" id="automationError" style="display: none;">
+      <div class="error-icon">
+        <svg viewBox="0 0 20 20" fill="currentColor" width="40" height="40">
+          <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
+        </svg>
+      </div>
+      <div class="error-message" id="errorMessage">Something went wrong</div>
+      <div class="error-actions">
+        <button class="btn-secondary" id="retryAutomationBtn">Retry</button>
+        <button class="btn-primary" id="goToSettingsBtn">Go to Settings</button>
+      </div>
+    </div>
+
+  </div>
+</div>

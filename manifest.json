@@ -1,0 +1,259 @@
+{
+  "manifest_version": 3,
+  "name": "Shahzaib SEO",
+  "version": "5.2.38",
+  "description": "All-in-one SEO, AEO & GEO full-page audit: page score, schema generator, ai content briefs & SERP tools \u2014 built-in AI",
+  "minimum_chrome_version": "116",
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "action": {
+    "default_popup": "popup/popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    },
+    "default_title": "Shahzaib SEO"
+  },
+  "commands": {
+    "_execute_action": {
+      "suggested_key": {
+        "default": "Alt+R",
+        "mac": "Alt+R"
+      },
+      "description": "Open Shahzaib SEO popup"
+    },
+    "toggle-toolbar": {
+      "suggested_key": {
+        "default": "Alt+T",
+        "mac": "Alt+T"
+      },
+      "description": "Toggle SEO Toolbar"
+    },
+    "toggle-serp-sidebar": {
+      "suggested_key": {
+        "default": "Alt+S",
+        "mac": "Alt+S"
+      },
+      "description": "Toggle SERP Sidebar"
+    },
+    "toggle-gsc-url-blur": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+B",
+        "mac": "Command+Shift+B"
+      },
+      "description": "Toggle Search Console URL blur (privacy for recordings)"
+    }
+  },
+  "permissions": [
+    "activeTab",
+    "scripting",
+    "storage",
+    "tabs",
+    "downloads",
+    "notifications",
+    "clipboardWrite",
+    "debugger"
+  ],
+  "host_permissions": [
+    "http://*/*",
+    "https://*/*",
+    "https://rdap.org/*",
+    "https://rdap.verisign.com/*",
+    "https://rdap.publicinterestregistry.org/*",
+    "https://rdap.nominet.uk/*",
+    "https://nominatim.openstreetmap.org/*",
+    "http://web.archive.org/*",
+    "https://web.archive.org/*",
+    "https://archive.org/*",
+    "http://suggestqueries.google.com/*",
+    "https://suggestqueries.google.com/*",
+    "https://dns.google/*",
+    "https://crt.sh/*",
+    "http://ip-api.com/*",
+    "https://ipwhois.app/*",
+    "https://api.hackertarget.com/*",
+    "https://pagespeedonline.googleapis.com/*",
+    "https://www.googleapis.com/*",
+    "https://data.keywordseverywhere.com/*",
+    "https://linkmetrics.keywordseverywhere.com/*",
+    "https://seoquake.publicapi.semrush.com/*",
+    "https://bl.publicapi.semrush.com/*",
+    "https://data.similarweb.com/*",
+    "https://www.semrush.com/*",
+    "https://integrate.api.nvidia.com/*",
+    "https://openrouter.ai/*",
+    "https://api.firecrawl.dev/*",
+    "https://mcp.firecrawl.dev/*",
+    "https://api.monid.ai/*",
+    "https://api.groq.com/*",
+    "https://api.perplexity.ai/*",
+    "https://api.openai.com/*",
+    "https://api.anthropic.com/*",
+    "https://generativelanguage.googleapis.com/*",
+    "https://api.x.ai/*",
+    "https://insight.gotrends.app/*",
+    "https://edu.sbmm.com.pk/*",
+    "https://api.keywordresearchapp.com/*",
+    "https://www.google.com/*",
+    "https://www.google.co.uk/*",
+    "https://www.google.com.pk/*",
+    "https://www.google.co.in/*",
+    "https://www.google.com.au/*",
+    "https://www.google.ca/*",
+    "https://www.google.de/*",
+    "https://www.google.fr/*",
+    "https://www.google.es/*",
+    "https://www.google.it/*",
+    "https://www.google.nl/*",
+    "https://www.google.com.br/*",
+    "https://www.google.com.mx/*",
+    "https://www.google.co.jp/*",
+    "https://www.google.com.sg/*",
+    "https://www.google.ae/*",
+    "https://www.google.com.sa/*",
+    "https://www.google.co.za/*",
+    "https://www.google.com.tr/*",
+    "https://www.google.pl/*",
+    "https://www.google.ie/*",
+    "https://www.google.co.nz/*",
+    "https://www.google.com.ar/*",
+    "https://www.google.co.id/*",
+    "https://www.google.com.ph/*",
+    "https://www.google.com.bd/*",
+    "https://maps.google.com/*",
+    "https://*.google.com/*",
+    "https://*.google.co.uk/*",
+    "https://*.google.com.pk/*",
+    "https://*.google.co.in/*",
+    "https://api.ahrefs.com/*",
+    "https://ahrefs.com/*",
+    "https://google.serper.dev/*",
+    "https://serpapi.com/*",
+    "https://trends.google.com/*",
+    "https://api.textrazor.com/*",
+    "https://www.google.com/complete/*",
+    "https://api.keywordseverywhere.com/*",
+    "https://www.iana.org/*",
+    "https://who-dat.as93.net/*",
+    "https://api.whois.vu/*",
+    "https://whois.registry.net.za/*",
+    "https://search.google.com/*"
+  ],
+  "background": {
+    "service_worker": "background/background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "http://*/*",
+        "https://*/*"
+      ],
+      "js": [
+        "libs/wappalyzer-fingerprints.js",
+        "libs/mcp-bridge.js",
+        "content/content.js",
+        "content/toolbar.js",
+        "content/onpage-labs.js",
+        "content/page-inspector.js"
+      ],
+      "css": [
+        "content/toolbar.css"
+      ],
+      "run_at": "document_idle"
+    },
+    {
+      "matches": [
+        "https://www.google.com/search*",
+        "https://google.com/search*",
+        "https://www.google.co.uk/search*",
+        "https://www.google.com.pk/search*",
+        "https://www.google.co.in/search*",
+        "https://www.google.com.au/search*",
+        "https://www.google.ca/search*",
+        "https://www.google.de/search*",
+        "https://www.google.fr/search*",
+        "https://www.google.es/search*",
+        "https://www.google.it/search*",
+        "https://www.google.nl/search*",
+        "https://www.google.com.br/search*",
+        "https://www.google.com.mx/search*",
+        "https://www.google.co.jp/search*",
+        "https://www.google.com.sg/search*",
+        "https://www.google.com.my/search*",
+        "https://www.google.ae/search*",
+        "https://www.google.com.sa/search*",
+        "https://www.google.com.eg/search*",
+        "https://www.google.co.za/search*",
+        "https://www.google.com.tr/search*",
+        "https://www.google.pl/search*",
+        "https://www.google.ru/search*",
+        "https://www.google.com.ua/search*",
+        "https://www.google.ie/search*",
+        "https://www.google.se/search*",
+        "https://www.google.no/search*",
+        "https://www.google.dk/search*",
+        "https://www.google.fi/search*",
+        "https://www.google.be/search*",
+        "https://www.google.at/search*",
+        "https://www.google.ch/search*",
+        "https://www.google.co.nz/search*",
+        "https://www.google.com.ar/search*",
+        "https://www.google.com.co/search*",
+        "https://www.google.cl/search*",
+        "https://www.google.com.pe/search*",
+        "https://www.google.co.id/search*",
+        "https://www.google.co.th/search*",
+        "https://www.google.com.ph/search*",
+        "https://www.google.com.vn/search*",
+        "https://www.google.com.ng/search*",
+        "https://www.google.com.bd/search*",
+        "https://www.google.lk/search*",
+        "https://www.bing.com/search*",
+        "https://www.bing.com/*/search*",
+        "https://bing.com/search*"
+      ],
+      "js": [
+        "content/serp-overlay.js",
+        "libs/niche-engine.js",
+        "content/serp-scraper-engine.js",
+        "content/serp-sidebar.js",
+        "content/google-cleaner.js"
+      ],
+      "run_at": "document_idle"
+    },
+    {
+      "matches": [
+        "https://search.google.com/search-console/*"
+      ],
+      "js": [
+        "content/gsc/gsc-toast.js",
+        "content/gsc/gsc-selectors.js",
+        "content/gsc/gsc-dom.js",
+        "content/gsc/gsc-filter.js",
+        "content/gsc/gsc-blur.js",
+        "content/gsc/gsc-bridge.js"
+      ],
+      "css": [
+        "content/gsc/gsc-content.css"
+      ],
+      "run_at": "document_idle"
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "content/toolbar.css",
+        "icons/*.png",
+        "icons/*.jpg"
+      ],
+      "matches": [
+        "http://*/*",
+        "https://*/*"
+      ]
+    }
+  ]
+}
