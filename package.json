@@ -1,0 +1,1 @@
+{"name":"shahzaib-seo-original","version":"1.0.0","private":true,"type":"module","scripts":{"test":"node --test tests/*.test.js","check":"node --check src/audit.js && node --check src/scoring.js && node --check src/background.js && node --check src/popup.js"}}

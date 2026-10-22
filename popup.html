@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Shahzaib SEO</title><link rel="stylesheet" href="style.css"><script type="module" src="src/popup.js"></script></head>
+<body>
+<div class="workspace">
+  <aside class="rail">
+    <a class="brand" href="https://shazzseo.com" target="_blank" rel="noopener"><span class="monogram">S</span><span>Shahzaib<span class="brand-sub">SEO WORKSPACE</span></span></a>
+    <div class="nav-label">EXPLORE</div>
+    <nav aria-label="Audit sections">
+      <button class="nav active" data-view="overview"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3h6v6H3z M15 3h6v6h-6z M3 15h6v6H3z M15 15h6v6h-6z"/></svg></span> Overview</button>
+      <button class="nav" data-view="content"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16 M4 10h16 M4 15h10 M4 20h7"/></svg></span> Content & headings</button>
+      <button class="nav" data-view="images"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4h18v16H3z M3 16l6-6 5 5 3-3 4 4"/></svg></span> Images</button>
+      <button class="nav" data-view="links"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 8L5 12l4 4 M15 8l4 4-4 4 M8 12h8"/></svg></span> Links</button>
+      <button class="nav" data-view="schema"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5v18h3 M16 3h3v18h-3 M10 9l4 3-4 3"/></svg></span> Structured data</button>
+      <button class="nav" data-view="technical"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16v13H4z M8 7V3 M16 7V3 M4 12h16"/></svg></span> Technical</button>
+      <button class="nav" data-view="authority"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18 M12 7v10 M7 12h10"/></svg></span> Authority & traffic</button>
+      <button class="nav" data-view="search"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M10 3a7 7 0 1 0 0 14 7 7 0 0 0 0-14 M15 15l6 6"/></svg></span> Search research</button>
+      <button class="nav" data-view="utilities"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18 M8 3v6 M3 18h18 M16 15v6"/></svg></span> Text & regex tools</button>
+      <button class="nav" data-view="ai"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l2.5 6.5L21 12l-6.5 2.5L12 21l-2.5-6.5L3 12l6.5-2.5z"/></svg></span> AI studio</button>
+      <button class="nav" data-view="history"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4a8 8 0 1 1-8 8 M4 4v8h8 M12 8v5l3 2"/></svg></span> Audit history</button>
+    </nav>
+    <div class="rail-bottom"><div class="local-badge"><i></i> Local audit by default</div><button class="nav" data-view="settings"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v4 M12 17v4 M3 12h4 M17 12h4 M6 6l3 3 M15 15l3 3 M6 18l3-3 M15 9l3-3 M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8"/></svg></span> Integrations & privacy</button><a href="mailto:info@shazzseo.com">Contact support</a><small>Version 1.0 · Independent build</small></div>
+  </aside>
+  <main>
+    <header><div><span class="eyebrow">YOUR NEXT OPTIMIZATION STARTS HERE</span><h1 id="viewTitle">Page overview</h1></div><div class="header-actions"><button id="exportBtn" class="secondary">↓ Export</button><button id="auditBtn" class="primary">↻ Audit page</button></div></header>
+    <div class="site-strip"><span id="siteIcon">S</span><div><strong id="siteHost">Ready when you are</strong><span id="siteUrl">Open a website, then select Audit page.</span></div><span id="localLabel" class="tag">LOCAL FIRST</span></div>
+    <div id="notice" class="notice" role="status" hidden></div>
+    <div id="view" class="view"></div>
+    <footer><span>Shahzaib Hassan · <a href="https://shazzseo.com" target="_blank" rel="noopener">shazzseo.com</a></span><span>Evidence before assumptions.</span></footer>
+  </main>
+</div>
+<dialog id="exportDialog"><div class="dialog-head"><h2>Take your audit with you</h2><button id="closeExport" aria-label="Close">×</button></div><p>Export collected evidence. Missing metrics stay unavailable.</p><div class="export-options"><button id="jsonExport">Complete audit · JSON</button><button id="csvExport">Audit checks · CSV</button><button id="linksExport">Links · CSV</button><button id="printExport">Printable report · Save as PDF</button></div></dialog>
+</body></html>
