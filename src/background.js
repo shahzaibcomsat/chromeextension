@@ -1,6 +1,7 @@
+import {parseSuggestions,parseArchiveRows} from './public-data.js';
 import {domainData, GOOGLE_HOSTS, registeredDomain} from './domain-data.js';
 import {registrationEndpoint} from './providers.js';
-const allowedJobs = new Set(['technical','metrics','pagespeed','ai','dns','rdap','search','keywords','domainSummary']);
+const allowedJobs = new Set(['technical','metrics','pagespeed','ai','dns','rdap','search','keywords','domainSummary','suggest','wayback']);
 const safeHttps = value => {const url=new URL(value);if(url.protocol!=='https:'||url.username||url.password)throw new Error('Use an HTTPS URL without embedded credentials.');url.hash='';return url;};
 async function fetchLimited(url, options = {}, maxBytes = 2_000_000, publicRedirects = false) {
   const response=await fetch(url,{...options,credentials:'omit',redirect:publicRedirects?'follow':'error',signal:AbortSignal.timeout(25000)});
@@ -27,9 +28,21 @@ async function dispatch(job,payload) {
   if(job==='domainSummary')return domainData(payload.hostname,fetchLimited,dispatch);
   if(job==='technical')return technical(payload.url);
   const {settings={}}=await chrome.storage.local.get('settings');
+  if(job==='suggest'){
+    const query=String(payload.query||'').trim().slice(0,200);if(!query)throw new Error('Enter a keyword or question.');
+    const url=new URL('https://suggestqueries.google.com/complete/search');url.search=new URLSearchParams({client:'firefox',q:query,hl:'en',gl:/^[a-z]{2}$/.test(payload.country)?payload.country:'us'});
+    const {text}=await fetchLimited(url.href);return {query,suggestions:parseSuggestions(JSON.parse(text),query),source:'Google Suggest',observedAt:new Date().toISOString()};
+  }
+  if(job==='wayback'){
+    const domain=registeredDomain(payload.hostname);const errors=[];let earliest=null,available=null;
+    await Promise.all([
+      (async()=>{try{const url=new URL('https://web.archive.org/cdx/search/cdx');url.search=new URLSearchParams({url:domain+'/*',output:'json',filter:'statuscode:200',fl:'timestamp,original',limit:'1'});const {text}=await fetchLimited(url.href);earliest=parseArchiveRows(JSON.parse(text));if(earliest&&registeredDomain(earliest.original)!==domain)throw new Error('Archive returned a different domain.');}catch(error){errors.push('Capture history: '+error.message);}})(),
+      (async()=>{try{const url=new URL('https://archive.org/wayback/available');url.search=new URLSearchParams({url:'https://'+domain+'/'});const {text}=await fetchLimited(url.href);const closest=JSON.parse(text)?.archived_snapshots?.closest;if(closest?.available&&closest.url){const snapshot=new URL(closest.url);if(!['web.archive.org','archive.org'].includes(snapshot.hostname))throw new Error('Unexpected snapshot host.');snapshot.protocol='https:';available={url:snapshot.href,timestamp:closest.timestamp||null};}}catch(error){errors.push('Available snapshot: '+error.message);}})()
+    ]);return {domain,earliest,available,errors,source:'Internet Archive / Wayback',observedAt:new Date().toISOString()};
+  }
   if(job==='dns') {
     const hostname=new URL('https://'+payload.hostname).hostname;
-    const records=await Promise.all(['A','AAAA','MX','NS','TXT'].map(async type=>{
+    const records=await Promise.all(['A','AAAA','CNAME','MX','NS','TXT','SOA','CAA'].map(async type=>{
       const url=new URL('https://dns.google/resolve');url.search=new URLSearchParams({name:hostname,type});
       const {text}=await fetchLimited(url.href);const data=JSON.parse(text);
       return {type,status:data.Status,answers:(data.Answer||[]).map(row=>({name:row.name,value:row.data,ttl:row.TTL}))};

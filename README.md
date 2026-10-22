@@ -118,7 +118,7 @@ Developer: Shahzaib Hassan · https://shazzseo.com · info@shazzseo.com
 - Age, registration date, DA, PA, DR, Spam Score, backlinks, referring domains, organic traffic and monthly visits fields. Focus any result to show its data in the top toolbar.
 - 10 result strips by default, optional 20; dynamic result handling, CSV export and disable control.
 - Domain age uses RDAP registration events, not archive age. Regional public suffixes are parsed by the bundled tldts library.
-- Configure your own Keywords Everywhere key for the link-metrics endpoint (DA/PA/Spam/link fields), and an Ahrefs key for DR, or use your licensed backend. The adapters do not bundle credentials or guarantee free/anonymous access. Traffic still requires the licensed metrics backend.
+- Configure your own Keywords Everywhere key for the link-metrics endpoint (DA/PA/Spam/link fields), and an Ahrefs key for DR, or use your licensed backend. The adapters do not bundle credentials or guarantee free/anonymous access. Traffic can come from the enabled public-estimate adapters or a licensed metrics backend (see v1.2).
 - Keys remain in trusted extension storage/background; Google content scripts receive only toolbar preferences and normalized public metrics.
 - Caching: complete responses up to 24 hours; partial/unavailable responses five minutes. In-flight requests are shared; at most three domain enrichments run concurrently. Cache size is limited to 250 entries.
 
@@ -131,3 +131,23 @@ Developer: Shahzaib Hassan · https://shazzseo.com · info@shazzseo.com
 5. Open any website and run Audit page to see its Website age & authority panel. With HTTPS data access already granted, this data loads automatically after the audit.
 
 Live registry requests in the cloud environment were blocked by its egress proxy (CONNECT 403). Live provider entitlements and response compatibility are not certified; Google fixture tests use clearly labelled sample data. Full feature parity with the reference extension is still not claimed.
+
+## Version 1.2: public-data integrations and no-key default
+
+- **Keywords Everywhere:** keyless link-metric requests are attempted by default once website-data access is granted. Saving your KE key does not send it: **Use my saved KE key** is a separate, initially unchecked option. Enable authenticated lookup only after confirming the endpoint's terms/credits for your account. A keyless response is not guaranteed. No paid keyword-volume calls are introduced here.
+- **Ahrefs:** the DR adapter uses `/v3/public/domain-rating-free` with your own accepted key. Its name does not establish free account entitlement. No anonymous Ahrefs API access or additional free API routes are asserted. Manual links open Ahrefs' authority and backlink checkers without trying to bypass their interaction requirements.
+- **SimilarWeb / SEMrush:** optional, best-effort public requests (on by default with website-data access). SimilarWeb can supply total estimated visits, engagement, rank, traffic shares and monthly history. SEMrush can supply organic traffic, keyword count, backlinks and referring domains. Providers can deny access or change schemas. Only missing fields are filled; data is source-labelled, with total visits separate from organic traffic. No DA/PA/DR or referring-domain estimates are invented from SEMrush data.
+- **RDAP/WHOIS:** registration date, registrar, expiry, nameservers and status when returned by RDAP; manual ICANN lookup link for further registry information. This release does not implement a raw TCP WHOIS client or send data to arbitrary WHOIS relays.
+- **Wayback:** earliest returned successful CDX capture and an available homepage snapshot. Archive dates are never substituted for registration age. Requests only run when you click Check Wayback.
+- **Google Suggest:** explicit keyword-idea button; no paid Serper or keyword-volume key needed. Sends the query/country to Google's autocomplete endpoint. Suggestions are not volume or difficulty metrics.
+- **Public DNS:** A, AAAA, CNAME, MX, NS, TXT, SOA and CAA records.
+
+### Suggested setup without buying credits
+
+1. Enable website-data access.
+2. Leave **Try keyless KE link metrics** and **Try SimilarWeb / SEMrush public estimates** checked.
+3. Leave **Use my saved KE key** unchecked until you confirm your account's access/cost. You may save the key locally without enabling it.
+4. Save settings, clear the website cache, and refresh Google results. A provider rejection appears in Sources & unavailable data; it is not bypassed or replaced with a fake score.
+5. Use Wayback, Google Suggest and DNS manually as needed. Public services can enforce quotas or block requests; no unlimited-free promise is made.
+
+All new provider formats are tested with fixtures. Live service access and account billing remain unverified in this cloud runner.

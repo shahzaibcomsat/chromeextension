@@ -33,7 +33,7 @@ with sync_playwright() as p:
  scripting:{executeScript:async()=>[{result:window.__audit}]},
  storage:{local:{get:async key=>typeof key==='string'?{[key]:store[key]}:Object.fromEntries(key.map(k=>[k,store[k]])),set:async data=>Object.assign(store,data),remove:async key=>{delete store[key];}}},
  permissions:{request:async()=>true,getAll:async()=>({origins:[]}),remove:async()=>true},
- runtime:{getURL:path=>'http://localhost/'+path,sendMessage:async message=>({ok:false,error:'Fixture: no provider request sent'})}
+ runtime:{getURL:path=>'http://localhost/'+path,sendMessage:async message=>message.job==='suggest'?{ok:true,data:{source:'Google Suggest fixture',observedAt:'2026-10-23',suggestions:['example audit']}}:message.job==='wayback'?{ok:true,data:{domain:'example.com',source:'Wayback fixture',observedAt:'2026-10-23',earliest:{date:'2010-01-02',snapshotUrl:'https://web.archive.org/web/20100102030405/https://example.com/'},available:null,errors:[]}}:{ok:false,error:'Fixture: no provider request sent'}}
 };''')
  page.goto('http://localhost/popup.html');page.locator('#startAudit').click()
  page.locator('#siteHost').filter(has_text='localhost').wait_for()
@@ -46,12 +46,12 @@ with sync_playwright() as p:
  page.locator('[data-view="images"]').click();assert page.locator('#view').inner_text().find('Missing attribute')>=0
  page.locator('[data-view="links"]').click();page.locator('#linkFilter').select_option('nofollow');assert page.locator('#linkRows tbody tr').count()==1
  page.locator('[data-view="schema"]').click();page.locator('#schemaGenerate').click();assert 'schema.org' in page.locator('#schemaOutput').inner_text()
- page.locator('[data-view="technical"]').click();assert page.locator('#technicalFetch').is_visible()
+ page.locator('[data-view="technical"]').click();assert page.locator('#technicalFetch').is_visible();page.locator('#waybackFetch').click();assert '2010-01-02' in page.locator('#waybackResults').inner_text()
  page.locator('[data-view="authority"]').click();page.locator('#metricsFetch').click();assert 'Fixture: no provider request sent' in page.locator('#notice').inner_text()
- page.locator('[data-view="search"]').click();page.locator('#searchQuery').fill('example');assert page.locator('#searchFetch').is_visible()
+ page.locator('[data-view="search"]').click();page.locator('#searchQuery').fill('example');assert page.locator('#searchFetch').is_visible();page.locator('#suggestFetch').click();assert 'example audit' in page.locator('#suggestResults').inner_text()
  page.locator('[data-view="utilities"]').click();page.locator('#regexPattern').fill('example');page.locator('#regexText').fill('example sample example');page.locator('#regexRun').click();page.wait_for_function('document.querySelector("#regexResult").textContent !== "No text has been processed."');assert page.locator('#regexResult').inner_text()=='example\nexample'
  page.locator('[data-view="settings"]').click();page.locator('#aiUrl').fill('http://insecure.example/');page.locator('#settingsForm button[type="submit"]').click();assert 'HTTPS' in page.locator('#notice').inner_text()
- page.locator('#aiUrl').fill('https://ai.example/chat');page.locator('#aiModel').fill('fixture-model');page.locator('#settingsForm button[type="submit"]').click();assert 'saved locally' in page.locator('#notice').inner_text()
+ page.locator('#aiUrl').fill('https://ai.example/chat');page.locator('#aiModel').fill('fixture-model');page.locator('#settingsForm button[type="submit"]').click();assert 'saved locally' in page.locator('#notice').inner_text();assert page.evaluate('window.__store.settings.keUseKey') is False;assert page.evaluate('window.__store.settings.keAnonymous') is True
  page.locator('[data-view="history"]').click();assert 'localhost' in page.locator('#view').inner_text();page.locator('#clearHistory').click();page.wait_for_function('!window.__store.history')
  page.locator('[data-view="overview"]').click();page.locator('#exportBtn').click()
  with page.expect_download() as download:page.locator('#csvExport').click()

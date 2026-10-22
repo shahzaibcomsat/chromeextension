@@ -35,3 +35,9 @@ This release contains no analytics, advertising, sale-of-data mechanism or autom
 The background stores up to 250 domain-metric cache entries with source labels and fetch times. Complete entries expire after 24 hours; partial results after five minutes. Cached results can include provider-authority scores, link/traffic counts and registration dates. These are domain-level data, separate from audit and search histories. Removing the extension clears its storage; the Clear website cache control also removes these entries. Provider keys are restricted to trusted extension contexts; the Google content script receives normalized results and toolbar preferences, not key values.
 
 The packaged tldts parser is MIT licensed and runs locally. It does not send hostnames to its publisher. Google pages can change structure and break result detection; this is not an official Google product.
+
+## Version 1.2 public-service requests
+
+With website-data access granted and public lookups enabled, result domains may also be sent to Keywords Everywhere's keyless link-metrics endpoint, SimilarWeb and SEMrush public endpoints. These requests omit user keys unless the user explicitly enables their saved Keywords Everywhere key. Public traffic estimates are enabled by default but can be disabled in Integrations; keyless KE requests can also be disabled. Saving a key alone does not enable its use. Third-party request logs, rate limits and terms still apply.
+
+On explicit clicks, Wayback receives the target registered domain, Google Suggest receives the entered query and country, and the DNS tool requests additional CNAME/SOA/CAA records. Registration results can include registrar, expiry and nameservers. Manual provider-checker and ICANN links open those third-party sites in the normal browser.
