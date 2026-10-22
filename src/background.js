@@ -1,8 +1,10 @@
+import {domainData, GOOGLE_HOSTS, registeredDomain} from './domain-data.js';
 import {registrationEndpoint} from './providers.js';
-const allowedJobs = new Set(['technical','metrics','pagespeed','ai','dns','rdap','search','keywords']);
+const allowedJobs = new Set(['technical','metrics','pagespeed','ai','dns','rdap','search','keywords','domainSummary']);
 const safeHttps = value => {const url=new URL(value);if(url.protocol!=='https:'||url.username||url.password)throw new Error('Use an HTTPS URL without embedded credentials.');url.hash='';return url;};
-async function fetchLimited(url, options = {}, maxBytes = 2_000_000) {
-  const response=await fetch(url,{...options,credentials:'omit',redirect:'error',signal:AbortSignal.timeout(25000)});
+async function fetchLimited(url, options = {}, maxBytes = 2_000_000, publicRedirects = false) {
+  const response=await fetch(url,{...options,credentials:'omit',redirect:publicRedirects?'follow':'error',signal:AbortSignal.timeout(25000)});
+  if(publicRedirects && response.url && !response.url.startsWith('https://'))throw new Error('Registry redirected to a non-HTTPS URL.');
   if(!response.ok)throw new Error(`Provider returned HTTP ${response.status}.`);
   if (!response.body) return {response,text:''};
   const reader=response.body.getReader();let size=0;const chunks=[];
@@ -22,6 +24,7 @@ async function technical(target) {
   return {files,headers,fetchedAt:new Date().toISOString()};
 }
 async function dispatch(job,payload) {
+  if(job==='domainSummary')return domainData(payload.hostname,fetchLimited,dispatch);
   if(job==='technical')return technical(payload.url);
   const {settings={}}=await chrome.storage.local.get('settings');
   if(job==='dns') {
@@ -84,7 +87,23 @@ async function dispatch(job,payload) {
   }
 }
 chrome.runtime.onMessage.addListener((message,sender,respond)=>{
-  // Accept privileged jobs only from this extension's own popup, never a webpage.
-  if(sender.id!==chrome.runtime.id||sender.url!==chrome.runtime.getURL('popup.html')||!allowedJobs.has(message?.job))return;
-  dispatch(message.job,message.payload||{}).then(data=>respond({ok:true,data})).catch(error=>respond({ok:false,error:error.message||'Request failed.'}));return true;
+  if(sender.id!==chrome.runtime.id)return;
+  let senderUrl;try{senderUrl=new URL(sender.url);}catch{return;}
+  const popup=senderUrl.protocol==='chrome-extension:'&&senderUrl.hostname===chrome.runtime.id&&senderUrl.pathname==='/popup.html';
+  const serp=senderUrl.protocol==='https:'&&GOOGLE_HOSTS.includes(senderUrl.hostname)&&senderUrl.pathname==='/search';
+  if(serp&&['toolbarConfig','hideToolbar'].includes(message?.job)){
+    (async()=>{const {settings={}}=await chrome.storage.local.get('settings');if(message.job==='hideToolbar'){settings.serpEnabled=false;await chrome.storage.local.set({settings});}return {serpEnabled:settings.serpEnabled!==false,serpLimit:settings.serpLimit===20?20:10};})().then(config=>respond({ok:true,config})).catch(()=>respond({ok:false,error:'Could not read toolbar preferences.'}));return true;
+  }
+  if(serp&&message?.job==='openSettings'){chrome.tabs.create({url:chrome.runtime.getURL('popup.html#settings')});respond({ok:true});return;}
+  if(!allowedJobs.has(message?.job)||(!popup&&!(serp&&message.job==='domainSummary')))return;
+  (async()=>{if(serp){const {settings={}}=await chrome.storage.local.get('settings');if(settings.serpEnabled===false)throw new Error('SERP toolbar is disabled.');}return dispatch(message.job,message.payload||{});})().then(data=>respond({ok:true,data})).catch(error=>respond({ok:false,error:error.message||'Request failed.'}));return true;
+});
+
+// Provider keys remain in trusted extension contexts, not in Google content scripts.
+chrome.storage.local.setAccessLevel?.({accessLevel:'TRUSTED_CONTEXTS'})?.catch(()=>{});
+chrome.storage.onChanged?.addListener((changes,area)=>{
+  if(area!=='local'||!changes.settings)return;
+  const settings=changes.settings.newValue||{};
+  const config={serpEnabled:settings.serpEnabled!==false,serpLimit:settings.serpLimit===20?20:10};
+  chrome.tabs.query({}).then(tabs=>Promise.all(tabs.map(tab=>chrome.tabs.sendMessage(tab.id,{type:'shahzaib-toolbar-config',config}).catch(()=>{})))).catch(()=>{});
 });

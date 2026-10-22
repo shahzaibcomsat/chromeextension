@@ -3,9 +3,9 @@ import assert from 'node:assert/strict';
 import vm from 'node:vm';
 import fs from 'node:fs';
 import {registrationEndpoint} from '../src/providers.js';
-const source=fs.readFileSync(new URL('../src/background.js',import.meta.url),'utf8').replace("import {registrationEndpoint} from './providers.js';",'');
+const source=fs.readFileSync(new URL('../src/background.js',import.meta.url),'utf8').replace("import {domainData, GOOGLE_HOSTS, registeredDomain} from './domain-data.js';",'').replace("import {registrationEndpoint} from './providers.js';",'');
 function harness(settings={},fetchImpl=async()=>{throw Error('Unexpected request');}){
- let handler;const ctx={registrationEndpoint,chrome:{storage:{local:{get:async()=>({settings})}},runtime:{id:'test-id',getURL:path=>'chrome-extension://test-id/'+path,onMessage:{addListener:fn=>handler=fn}}},URL,AbortSignal,TextDecoder,Uint8Array,fetch:fetchImpl};vm.runInNewContext(source,ctx);
+ let handler;const ctx={registrationEndpoint,GOOGLE_HOSTS:["www.google.com"],domainData:async()=>({domain:"example.com"}),chrome:{storage:{onChanged:{addListener:()=>{}},local:{get:async()=>({settings})}},runtime:{id:'test-id',getURL:path=>'chrome-extension://test-id/'+path,onMessage:{addListener:fn=>handler=fn}}},URL,AbortSignal,TextDecoder,Uint8Array,fetch:fetchImpl};vm.runInNewContext(source,ctx);
  const send=(job,payload={})=>new Promise(resolve=>handler({job,payload},{id:'test-id',url:'chrome-extension://test-id/popup.html'},resolve));
  return {send,handler};
 }
@@ -16,4 +16,4 @@ test('HEAD responses without body still expose selected headers',async()=>{const
 test('page-origin messages cannot invoke privileged jobs',()=>{const app=harness();let responded=false;const result=app.handler({job:'technical',payload:{url:'https://example.com'}},{id:'test-id',url:'https://example.com'},()=>responded=true);assert.equal(result,undefined);assert.equal(responded,false);});
 test('search uses the selected country and preserves an unobserved rank as null',async()=>{let sent;const app=harness({serperKey:'fixture-key'},async(url,options)=>{assert.equal(url,'https://google.serper.dev/search');sent=JSON.parse(options.body);return new Response(JSON.stringify({organic:[{title:'Other site',link:'https://other.example',position:1}]}));});const r=await app.send('search',{query:'example research',country:'pk',hostname:'example.com'});assert.equal(r.ok,true);assert.equal(sent.gl,'pk');assert.equal(r.data.rank,null);assert.equal(r.data.organic.length,1);});
 test('keyword values are not inferred when the licensed backend omits them',async()=>{const r=await harness({keywordUrl:'https://metrics.example/keyword'},async()=>new Response(JSON.stringify({query:'test',source:'Fixture',volume:0}))).send('keywords',{query:'test',country:'us'});assert.equal(r.ok,true);assert.equal(r.data.volume,0);assert.equal(r.data.cpc,null);});
-test('direct RDAP uses only the selected registry and rejects unsupported registries',()=>{assert.equal(registrationEndpoint('example.com').origin,'https://rdap.verisign.com');assert.throws(()=>registrationEndpoint('example.unsupported'),/not configured/);});
+test('RDAP uses a selected registry or public bootstrap fallback',()=>{assert.equal(registrationEndpoint('example.com').origin,'https://rdap.verisign.com');assert.equal(registrationEndpoint('example.xyz').origin,'https://rdap.org');});

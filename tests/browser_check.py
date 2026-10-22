@@ -38,6 +38,8 @@ with sync_playwright() as p:
  page.goto('http://localhost/popup.html');page.locator('#startAudit').click()
  page.locator('#siteHost').filter(has_text='localhost').wait_for()
  assert page.locator('#view').inner_text().find('ON-PAGE CHECKLIST')>=0
+ assert page.locator('#websiteFetch').count()==1
+ assert 'Website age & authority' in page.locator('#view').inner_text()
  assert not page.evaluate('document.documentElement.scrollWidth>800')
  page.screenshot(path=str(ARTIFACTS/'shahzaib-seo-original-overview.png'))
  page.locator('[data-view="content"]').click();assert page.locator('#view').inner_text().find('Heading outline')>=0
@@ -45,7 +47,7 @@ with sync_playwright() as p:
  page.locator('[data-view="links"]').click();page.locator('#linkFilter').select_option('nofollow');assert page.locator('#linkRows tbody tr').count()==1
  page.locator('[data-view="schema"]').click();page.locator('#schemaGenerate').click();assert 'schema.org' in page.locator('#schemaOutput').inner_text()
  page.locator('[data-view="technical"]').click();assert page.locator('#technicalFetch').is_visible()
- page.locator('[data-view="authority"]').click();page.locator('#metricsFetch').click();assert 'licensed metrics backend' in page.locator('#notice').inner_text()
+ page.locator('[data-view="authority"]').click();page.locator('#metricsFetch').click();assert 'Fixture: no provider request sent' in page.locator('#notice').inner_text()
  page.locator('[data-view="search"]').click();page.locator('#searchQuery').fill('example');assert page.locator('#searchFetch').is_visible()
  page.locator('[data-view="utilities"]').click();page.locator('#regexPattern').fill('example');page.locator('#regexText').fill('example sample example');page.locator('#regexRun').click();page.wait_for_function('document.querySelector("#regexResult").textContent !== "No text has been processed."');assert page.locator('#regexResult').inner_text()=='example\nexample'
  page.locator('[data-view="settings"]').click();page.locator('#aiUrl').fill('http://insecure.example/');page.locator('#settingsForm button[type="submit"]').click();assert 'HTTPS' in page.locator('#notice').inner_text()

@@ -9,6 +9,5 @@ export function registrationEndpoint(domain) {
     app:'https://rdap.nic.google/domain/',
     dev:'https://rdap.nic.google/domain/'
   }[hostname.split('.').at(-1)];
-  if (!registry) throw new Error('Direct RDAP lookup currently supports .com, .net, .org, .uk, .app and .dev. Other registries are not configured.');
-  return new URL(registry + encodeURIComponent(hostname));
+  return new URL((registry || 'https://rdap.org/domain/') + encodeURIComponent(hostname));
 }

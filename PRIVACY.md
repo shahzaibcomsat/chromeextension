@@ -12,9 +12,9 @@ The latest 50 audit summaries are stored in Chrome local extension storage: page
 
 ## Optional external requests
 
-No external requests are automatically sent when a local audit runs. The extension does not load remote fonts, analytics or advertising scripts.
+After optional website-data access is granted, domain age and configured provider metrics may be fetched following an audit. The Google results toolbar is enabled by default on supported Google search pages; you can disable it in Integrations or with its Hide button. It scans up to 10 (optionally 20) result links and, once network access is granted, shares their registered domains with RDAP registries and configured metric providers. The toolbar itself does not send the search query to those providers. The extension does not load remote fonts, analytics or advertising scripts.
 
-When explicitly requested, technical tools contact the inspected website, Google Public DNS or the applicable supported RDAP registry. PageSpeed sends the current page URL to Google. Search sends the entered query and country to Serper. Authority metrics send the current hostname to your configured metrics backend. Keyword metrics send the query and country to your configured keyword backend. These providers/backends also receive normal network information such as your IP address.
+When requested by a tool or enabled results enrichment, technical tools contact the inspected website, Google Public DNS or the applicable supported RDAP registry. PageSpeed sends the current page URL to Google. Search sends the entered query and country to Serper. Authority metrics send the current hostname to your configured metrics backend. Keyword metrics send the query and country to your configured keyword backend. These providers/backends also receive normal network information such as your IP address.
 
 AI generation sends your selected task, page URL, title, description, up to 30 headings and up to 1,600 characters of extracted page text to your configured AI endpoint. AI results are suggestions, not measured rankings. Do not send confidential or personal page content without appropriate authorization.
 
@@ -29,3 +29,9 @@ User-entered API keys and backend tokens are stored in Chrome local extension st
 Integrations & privacy provides controls to delete keys/settings and revoke optional host permissions. Audit history and search research each have deletion controls for their respective stored observations. Exported files are outside the extension's control; delete them using your device's file manager. Uninstalling the extension normally removes its local extension storage; confirm browser behavior for managed devices or backups.
 
 This release contains no analytics, advertising, sale-of-data mechanism or automatic background monitoring. Future changes to those behaviors require updated policy and store disclosures.
+
+## Website metric caching and content scripts
+
+The background stores up to 250 domain-metric cache entries with source labels and fetch times. Complete entries expire after 24 hours; partial results after five minutes. Cached results can include provider-authority scores, link/traffic counts and registration dates. These are domain-level data, separate from audit and search histories. Removing the extension clears its storage; the Clear website cache control also removes these entries. Provider keys are restricted to trusted extension contexts; the Google content script receives normalized results and toolbar preferences, not key values.
+
+The packaged tldts parser is MIT licensed and runs locally. It does not send hostnames to its publisher. Google pages can change structure and break result detection; this is not an official Google product.

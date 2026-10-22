@@ -1,13 +1,87 @@
 {
   "manifest_version": 3,
   "name": "Shahzaib SEO",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Inspect on-page SEO, structured data, links and technical signals. Local audits with optional user-configured integrations.",
   "minimum_chrome_version": "116",
-  "permissions": ["activeTab", "scripting", "storage"],
-  "optional_host_permissions": ["https://*/*", "http://*/*"],
-  "action": {"default_title": "Audit this page with Shahzaib SEO", "default_popup": "popup.html", "default_icon": {"16": "icons/16.png", "48": "icons/48.png", "128": "icons/128.png"}},
-  "icons": {"16": "icons/16.png", "48": "icons/48.png", "128": "icons/128.png"},
-  "background": {"service_worker": "src/background.js", "type": "module"},
-  "content_security_policy": {"extension_pages": "script-src 'self'; object-src 'none'; base-uri 'none'"}
+  "permissions": [
+    "activeTab",
+    "scripting",
+    "storage"
+  ],
+  "optional_host_permissions": [
+    "https://*/*",
+    "http://*/*"
+  ],
+  "action": {
+    "default_title": "Audit this page with Shahzaib SEO",
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icons/16.png",
+      "48": "icons/48.png",
+      "128": "icons/128.png"
+    }
+  },
+  "icons": {
+    "16": "icons/16.png",
+    "48": "icons/48.png",
+    "128": "icons/128.png"
+  },
+  "background": {
+    "service_worker": "src/background.js",
+    "type": "module"
+  },
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'none'; base-uri 'none'"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://google.com/search*",
+        "https://www.google.com/search*",
+        "https://google.co.uk/search*",
+        "https://www.google.co.uk/search*",
+        "https://google.com.pk/search*",
+        "https://www.google.com.pk/search*",
+        "https://google.co.in/search*",
+        "https://www.google.co.in/search*",
+        "https://google.ca/search*",
+        "https://www.google.ca/search*",
+        "https://google.com.au/search*",
+        "https://www.google.com.au/search*",
+        "https://google.de/search*",
+        "https://www.google.de/search*",
+        "https://google.fr/search*",
+        "https://www.google.fr/search*",
+        "https://google.es/search*",
+        "https://www.google.es/search*",
+        "https://google.it/search*",
+        "https://www.google.it/search*",
+        "https://google.nl/search*",
+        "https://www.google.nl/search*",
+        "https://google.com.br/search*",
+        "https://www.google.com.br/search*",
+        "https://google.co.jp/search*",
+        "https://www.google.co.jp/search*",
+        "https://google.ae/search*",
+        "https://www.google.ae/search*",
+        "https://google.com.sa/search*",
+        "https://www.google.com.sa/search*",
+        "https://google.co.za/search*",
+        "https://www.google.co.za/search*",
+        "https://google.co.nz/search*",
+        "https://www.google.co.nz/search*",
+        "https://google.ie/search*",
+        "https://www.google.ie/search*",
+        "https://google.com.bd/search*",
+        "https://www.google.com.bd/search*",
+        "https://google.com.sg/search*",
+        "https://www.google.com.sg/search*"
+      ],
+      "js": [
+        "src/serp.js"
+      ],
+      "run_at": "document_idle"
+    }
+  ]
 }
